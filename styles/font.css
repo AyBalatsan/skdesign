@@ -1,0 +1,12 @@
+@font-face {
+	font-family: 'SF UI Display'; 
+	src: local('SF UI Display'),
+		url(../public/fonts/SFUIDisplay/sfuidisplay_bold.ttf); 
+  font-weight: bold;
+}
+@font-face {
+	font-family: 'SF UI Display'; 
+	src: local('SF UI Display'),
+		url(../public/fonts/SFUIDisplay/sfuidisplay_heavy.ttf); 
+  font-weight: normal;
+}
