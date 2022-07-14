@@ -2,7 +2,16 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import styled from 'styled-components'
 import InputDefault from '../ui/ForForm/input/InputDefault'
+import SelectDefault from '../ui/ForForm/select/SelectDefault'
+import dataCities from '../data/cities.json'
+import dataSources from '../data/sources.json'
 
+const inputList = [
+  {id: 'nameField', placeholder: 'Иван', label: 'Ваше имя *', type: 'text', req: true},
+  {id: 'phoneField', placeholder: '+7 (000) 000-00-00', label: 'Номер телефона *', type: 'text', req: true},
+  {id: 'emailField', placeholder: 'example@skdesign.ru', label: 'E-mail *', type: 'text', req: true},
+  {id: 'linkForProfileField', placeholder: 'instagram.com/skde…', label: 'Ссылка на профиль *', type: 'text', req: true},
+]
 const Home: NextPage = () => {
   return (
       <section>
@@ -22,7 +31,6 @@ const Home: NextPage = () => {
                   <path d="M144.931 49.275V10.6839H164.87C171.409 10.6839 176.662 12.2918 180.628 15.2933L186.524 8.86149C185.345 8.0039 184.166 7.25352 182.879 6.50314C177.841 3.8232 171.838 2.42963 164.87 2.42963H136.141V64.2827L141.394 58.494C143.645 56.0285 144.931 52.7053 144.931 49.275Z" fill="#0086A8" />
                   <path d="M192.527 15.1862L186.202 22.154C188.025 25.9059 188.989 30.6226 188.989 36.0897C188.989 44.3439 186.846 50.5614 182.665 54.9565C178.484 59.3516 172.481 61.6027 164.763 61.6027H155.544C152.221 61.6027 149.005 62.9963 146.754 65.4618L142.787 69.7498H164.656C171.623 69.7498 177.627 68.3562 182.772 65.569C187.81 62.7819 191.562 58.9228 194.242 53.7773C196.922 48.739 198.208 42.7359 198.208 35.9825C198.208 29.1218 196.922 23.226 194.242 18.1877C193.813 17.2229 193.17 16.1509 192.527 15.1862Z" fill="#353238" />
                 </svg>
-
                 <Title>Оставьте заявку и станьте частью нашей команды</Title>
                 <BlockWithText>
                   <p>Компания SK Design приглашает к взаимовыгодному сотрудничеству креативных дизайнеров, архитекторов и декораторов, дизайн-бюро и интерьерные студии — все, кто дизайн интерьера сделали своим призванием.</p>
@@ -36,34 +44,41 @@ const Home: NextPage = () => {
               </Description>
               <Form action="#">
                 <ShellGrid>
-                  <InputShell>
-                    <InputDefault 
-                      id='name'
-                      placeholder='Иван'
-                      label='Ваше имя *'
-                      type='text' 
-                      req={true}
-                    />                  
-                  </InputShell>
-                </ShellGrid>
-                <label htmlFor="name">
-                  <input type="text" id="name" />
-                </label>
-                <label htmlFor="phone">
-                  <input type="text" id="phone" />
-                </label>
-                <label htmlFor="email">
-                  <input type="email" id="email" />
-                </label>
-                <label htmlFor="link">
-                  <input type="text" id="link" />
-                </label>
-                <label htmlFor="city">
-                  <select name="" id="city"></select>
-                </label>
-                <label htmlFor="organization">
-                  <input type="text" id='organization' />
-                </label>
+                  {inputList.map(input =>{
+                    return(
+                      <InputShell key={input.id}>
+                        <InputDefault 
+                          id={input.id}
+                          placeholder={input.placeholder}
+                          label={input.label}
+                          type={input.type}
+                          req={input.req}
+                        />                  
+                      </InputShell>
+                    )
+                  })}
+                </ShellGrid>                
+                {/* <label htmlFor="city">
+                  <select  name="" id="city">
+                    {dataCities.map(city=>{
+                      return(
+                        <option key={city.id} value={city.id}>{city.name}</option>
+                      )
+                    })}
+                  </select>
+                </label> */}
+                <SelectDefault />
+
+                
+                <InputShell>
+                  <InputDefault 
+                    id='organization'
+                    placeholder='SK Design'
+                    label='Название организации/студии'
+                    type='text'
+                    req={false}
+                  />     
+                </InputShell>
                 <button>
                   <span>Скрыть дополнительные поля</span>
                   <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -79,9 +94,15 @@ const Home: NextPage = () => {
 
                 </button>
                 <div className="toggleBlock">
-                  <label htmlFor="fio">
-                    <input type="text" id="fio" />
-                  </label>
+                  <InputShell>
+                    <InputDefault 
+                      id='fio'
+                      placeholder='ФИО'
+                      label='Получатель'
+                      type='text'
+                      req={false}
+                    />     
+                  </InputShell>
                   <label htmlFor="howDidYouFindOut">
                     <select name="" id="howDidYouFindOut"></select>
                   </label>
@@ -153,7 +174,6 @@ const ShellGrid = styled.div`
 `
 const InputShell = styled.div`
   position: relative;
-  max-width: 180px;
   width: 100%;
   padding-top: 5px;
 

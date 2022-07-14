@@ -32,11 +32,19 @@ const Label = styled.label`
 `
 const Input = styled.input`
   display: flex;
+  width: 100%;
   padding: 18px 15px;
   gap: 10px;
   background: #FFFFFF;
   border: 2px solid #E3E3E3;
   border-radius: 8px;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0.25px;
+  color: #353238;
+  &::placeholder{
+    color: #CDCAD0;
+  }
 `
 
 export default InputDefault
