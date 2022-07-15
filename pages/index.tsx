@@ -57,19 +57,8 @@ const Home: NextPage = () => {
                       </InputShell>
                     )
                   })}
-                </ShellGrid>                
-                {/* <label htmlFor="city">
-                  <select  name="" id="city">
-                    {dataCities.map(city=>{
-                      return(
-                        <option key={city.id} value={city.id}>{city.name}</option>
-                      )
-                    })}
-                  </select>
-                </label> */}
-                <SelectDefault />
-
-                
+                </ShellGrid>    
+                <SelectDefault id='cityId' name='cityFiled' titleDefault='Выберите город *' req={true} data={dataCities} />
                 <InputShell>
                   <InputDefault 
                     id='organization'
@@ -103,9 +92,8 @@ const Home: NextPage = () => {
                       req={false}
                     />     
                   </InputShell>
-                  <label htmlFor="howDidYouFindOut">
-                    <select name="" id="howDidYouFindOut"></select>
-                  </label>
+                  {/* <SelectDefault id='sourcesId' name='sourcesFiled' titleDefault='От куда узнали про нас?' req={false} data={dataSources} /> */}
+                
                 </div>
                 <button>Отправить заявку</button>
               </Form>
