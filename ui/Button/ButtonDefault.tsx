@@ -1,10 +1,14 @@
 
 import styled from 'styled-components'
 
-
-const ButtonDefault = ({title, }) => {
+interface IProps {
+  title: string,
+  onClick: () => void,
+  disabled: boolean
+}
+const ButtonDefault = ({title, onClick, disabled}: IProps) => {
   return (
-    <ButtonDef>
+    <ButtonDef onClick={onClick} disabled={disabled}>
       <span>{title}</span>
       <span></span>
     </ButtonDef>

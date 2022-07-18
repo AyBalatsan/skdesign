@@ -1,24 +1,97 @@
 import type { NextPage } from 'next'
+import { useForm } from "react-hook-form";
 import Link from 'next/link'
 import styled from 'styled-components'
 import InputDefault from '../ui/ForForm/input/InputDefault'
-import SelectDefault from '../ui/ForForm/select/SelectDefault'
+import SelectDefault, {SelectForDataString} from '../ui/ForForm/select/SelectDefault'
 import dataCities from '../data/cities.json'
 import dataSources from '../data/sources.json'
+import ButtonDefault from '../ui/Button/ButtonDefault'
 
 const inputList = [
-  {id: 'nameField', placeholder: 'Иван', label: 'Ваше имя *', type: 'text', req: true},
-  {id: 'phoneField', placeholder: '+7 (000) 000-00-00', label: 'Номер телефона *', type: 'text', req: true},
-  {id: 'emailField', placeholder: 'example@skdesign.ru', label: 'E-mail *', type: 'text', req: true},
-  {id: 'linkForProfileField', placeholder: 'instagram.com/skde…', label: 'Ссылка на профиль *', type: 'text', req: true},
+  {id: 'nameField',
+    placeholder: 'Иван',
+    label: 'Ваше имя *',
+    type: 'text',
+    req: {
+      required: 'Поле объязательно',
+      minLength: {
+        value: 2,
+        message: `минимум 2 символов.`
+      },
+      maxLength: {
+        value: 12,
+        message: `максимум 12 символов.`
+      },
+      
+    }
+  },
+  {id: 'phoneField', placeholder: '+7 (000) 000-00-00', label: 'Номер телефона *', type: 'text', 
+    req: {
+      required: 'Поле объязательно к заполнению',
+      minLength: {
+        value: 2,
+        message: `минимум 5 символов.`
+      },
+      maxLength: {
+        value: 12,
+        message: `максимум 11 символов.`
+      },
+      pattern: "+7-[0-9]{3}-[0-9]{3}"
+    }
+  },
+  {id: 'emailField', placeholder: 'example@skdesign.ru', label: 'E-mail *', type: 'text', 
+    req: {
+      required: 'Поле объязательно к заполнению',
+      minLength: {
+        value: 2,
+        message: `минимум 2 символов.`
+      },
+      maxLength: {
+        value: 12,
+        message: `максимум 12 символов.`
+      },
+      pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+    }
+  },
+  {id: 'linkForProfileField', placeholder: 'instagram.com/skde…', label: 'Ссылка на профиль *', type: 'text', 
+    req: {
+      required: 'Поле объязательно к заполнению',
+      minLength: {
+        value: 2,
+        message: `минимум 2 символов.`
+      },
+      maxLength: {
+        value: 12,
+        message: `максимум 12 символов.`
+      },
+    }
+  },
 ]
 const Home: NextPage = () => {
+  const {
+    register,
+    formState: {
+      errors,
+      isValid
+    },
+    handleSubmit,
+    reset,
+  } = useForm({
+    mode: 'all'
+  })  
+  const onSubmit = (data:any) => {
+    setTimeout(() => {
+      alert(JSON.stringify(data))
+      reset()
+    }, 2000)    
+  }
   return (
       <section>
         <h1 className="visually-hidden">Сотрудничество и дизайн интерьера</h1>
         <Wrapper className="wrapper">
           <div className="container">
-            <Shell className="shell">
+            <Shell>
               <Description>
                 <svg width="475" height="71" viewBox="0 0 475 71" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2.03677 55.5995C3.53753 56.8859 5.25268 58.0651 7.50383 59.1371C9.64779 60.209 12.0061 60.9594 14.5789 61.6026C17.5804 62.2458 20.2604 62.5674 22.8331 62.5674C26.049 62.5674 29.0506 62.1386 31.7305 61.1738C34.4104 60.3162 36.4472 59.0299 38.0552 57.3147C39.6631 55.4923 40.4135 53.5628 40.4135 51.3116C40.4135 48.5245 39.1271 46.2733 36.5544 44.5582C33.9817 42.843 29.801 41.5566 24.2267 40.5919L18.8668 39.6271C12.6493 38.5551 7.93264 36.4112 4.71671 33.4096C1.60797 30.4081 0 26.549 0 21.7251C0 17.7588 1.07198 14.3284 3.32313 11.2197C5.46709 8.11098 8.68301 5.75262 12.6493 4.03746C16.6156 2.3223 21.1179 1.46472 26.1562 1.46472H27.7642C34.0889 1.67912 39.8775 3.07268 45.2374 5.64542L44.9158 14.8644C38.9128 11.3269 32.8025 9.50455 26.3706 9.50455C23.1547 9.50455 20.3676 9.93334 17.7948 10.8981C15.2221 11.7557 13.1853 13.1493 11.6846 14.7572C10.0766 16.5796 9.32619 18.6164 9.32619 20.8675C9.32619 23.6546 10.5054 25.9058 12.8637 27.6209C15.2221 29.3361 19.0812 30.6225 24.4411 31.5873L29.1578 32.3376C36.1256 33.5168 41.2711 35.5536 44.7014 38.5551C48.1317 41.5566 49.8469 45.4158 49.8469 50.2397C49.8469 54.206 48.7749 57.6363 46.5238 60.745C44.2726 63.8538 41.0567 66.2121 36.9832 67.9273C32.9097 69.6424 28.3002 70.5 23.1547 70.5H21.7611C18.2236 70.3928 14.6861 69.8568 11.1486 68.892C7.61104 67.9273 4.28791 66.6409 1.39357 65.0329L2.03677 55.5995Z" fill="#353238" />
@@ -42,33 +115,32 @@ const Home: NextPage = () => {
                     . Если Вы оформляете интерьеры жилых или коммерческих помещений — мы с радостью поможем Вам: составим уникальные условия сотрудничества, предоставим 3D модели (уточняйте у менеджеров) и разработаем коммерческое предложение к Вашему проекту или изображениям.</p>
                 </BlockWithText>
               </Description>
-              <Form action="#">
+              <Form action="#" onSubmit={handleSubmit(onSubmit)}>
                 <ShellGrid>
                   {inputList.map(input =>{
                     return(
-                      <InputShell key={input.id}>
-                        <InputDefault 
+                      <InputDefault 
+                          key={input.id}
                           id={input.id}
                           placeholder={input.placeholder}
                           label={input.label}
                           type={input.type}
-                          req={input.req}
-                        />                  
-                      </InputShell>
+                          req={input.req}                          
+                          inputValid={{register, errors}}
+                        />           
                     )
                   })}
-                </ShellGrid>    
+                </ShellGrid>  
                 <SelectDefault id='cityId' name='cityFiled' titleDefault='Выберите город *' req={true} data={dataCities} />
-                <InputShell>
                   <InputDefault 
                     id='organization'
                     placeholder='SK Design'
                     label='Название организации/студии'
                     type='text'
-                    req={false}
+                    inputValid={{register, errors}}
+                    req={null}
                   />     
-                </InputShell>
-                <button>
+                <ButtonToggle>
                   <span>Скрыть дополнительные поля</span>
                   <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clipPath="url(#clip0_1_2030)">
@@ -80,22 +152,19 @@ const Home: NextPage = () => {
                       </clipPath>
                     </defs>
                   </svg>
-
-                </button>
-                <div className="toggleBlock">
-                  <InputShell>
+                </ButtonToggle>
+                <ToggleBlock>
                     <InputDefault 
                       id='fio'
                       placeholder='ФИО'
                       label='Получатель'
                       type='text'
-                      req={false}
+                      inputValid={{register, errors}}
+                      req={null}
                     />     
-                  </InputShell>
-                  {/* <SelectDefault id='sourcesId' name='sourcesFiled' titleDefault='От куда узнали про нас?' req={false} data={dataSources} /> */}
-                
-                </div>
-                <button>Отправить заявку</button>
+                  <SelectForDataString id='sourcesId' name='sourcesFiled' titleDefault='От куда узнали про нас?' req={false} data={dataSources} />
+                </ToggleBlock>
+                <ButtonDefault disabled={!isValid} title='Отправить заявку' onClick={handleSubmit(onSubmit)}/>
               </Form>
             </Shell>
           </div>
@@ -133,12 +202,25 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
+  @media (max-width: 992px) {
+    height: fit-content;
+    padding-top: 40px;
+  }
+  @media (max-width: 540px) {
+    svg{
+      width: 100%;
+    }
+  }
 `
 const Shell = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 60px;
+  @media (max-width: 992px) {
+    flex-direction: column;
+    gap: 20px;
+  }
 `
 const Description = styled.div`
   display: flex;
@@ -146,6 +228,9 @@ const Description = styled.div`
   gap: 40px;
   max-width: 940px;
   width: 100%;
+  @media (max-width: 540px) {
+    gap: 20px;
+  }
 `
 const Form = styled.form`
   display: flex;
@@ -154,16 +239,32 @@ const Form = styled.form`
   max-width: 440px;
   width: 100%;
   padding: 40px 30px;
+  @media (max-width: 992px) {
+    max-width: 100%;
+    padding: 20px 0;
+  }
 `
 const ShellGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 6fr);
   gap: 20px;
+  @media (max-width: 540px) {
+    grid-template-columns: 12fr;
+  }
 `
-const InputShell = styled.div`
-  position: relative;
-  width: 100%;
-  padding-top: 5px;
+const ToggleBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 
 `
+const ButtonToggle = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 150%;
+  color: #353238;
+`
+
 export default Home

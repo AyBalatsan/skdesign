@@ -1,17 +1,30 @@
 
 import styled from 'styled-components'
+import {TypeInputDefault} from '../../../interfaces'
 
-type TypeInputDefault = { id: string, placeholder: string, label: string, type: string, req: boolean}
+interface iStyled {err: boolean}
 
-const InputDefault = ({id, placeholder, label, type, req}: TypeInputDefault) => {
+const InputDefault = ({id, placeholder, label, type, req=null, inputValid}: TypeInputDefault) => {
+  const {register, errors} = inputValid
+  console.log('>>', errors?.id === undefined);
+  
+  
   return (
-    <>
-      <Label htmlFor={id}>{label}</Label>
-      <Input type={type} id={id} placeholder={placeholder} {...req ? require : null} />
-    </>
-    
+    <Shell>
+      <Input {...register(id, {...req})} err={errors?.id === undefined} type={type} placeholder={placeholder} />
+      <Label err={errors?.id === undefined} htmlFor={id}>{label}</Label>
+      <Error>
+        {errors?.id && <p>{errors?.id?.message || 'Error'}</p>}
+      </Error>
+    </Shell>    
   )
 }
+
+const Shell = styled.div`
+  position: relative;
+  width: 100%;
+  padding-top: 5px;     
+`
 const Label = styled.label`
   position: absolute;
   top: 0;
@@ -26,25 +39,44 @@ const Label = styled.label`
   font-size: 12px;
   line-height: 100%;
   letter-spacing: 0.25px;
-  color: #828282;
   padding: 0px 5px;
   z-index: 1;
-`
+  transition: 0.4s all ease;
+  color: #828282;
+  color: ${(props:iStyled) => props.err ? "#828282" : "#EB5E55"}; 
+  `
 const Input = styled.input`
   display: flex;
+  transition: 0.4s all ease;
   width: 100%;
   padding: 18px 15px;
   gap: 10px;
   background: #FFFFFF;
   border: 2px solid #E3E3E3;
+  border-color: ${(props:iStyled) => props.err ? "#E3E3E3" : "#EB5E55"}; 
   border-radius: 8px;
   font-size: 14px;
   line-height: 100%;
   letter-spacing: 0.25px;
   color: #353238;
+  transition: 0.4s all;
   &::placeholder{
     color: #CDCAD0;
   }
+  &:focus{
+    border-color: #0086A8;  
+    & + Label{
+      color: #0086A8;
+    }      
+  }
+`
+const Error = styled.div`
+  font-size: 12px;
+  line-height: 100%;
+  color: #EB5E55;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 15px;
 `
 
 export default InputDefault
