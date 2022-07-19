@@ -1,20 +1,22 @@
 
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import {TypeInputDefault} from '../../../interfaces'
 
 interface iStyled {err: boolean}
 
-const InputDefault = ({id, placeholder, label, type, req=null, inputValid}: TypeInputDefault) => {
-  const {register, errors} = inputValid
-  console.log('>>', errors?.id === undefined);
-  
+const InputDefault = ({id, placeholder, label, type, req, validationSettings}: TypeInputDefault) => {
+  const {register, errors} = validationSettings
+  useEffect(()=>{
+    console.log(errors);
+  }, [errors])
   
   return (
     <Shell>
-      <Input {...register(id, {...req})} err={errors?.id === undefined} type={type} placeholder={placeholder} />
-      <Label err={errors?.id === undefined} htmlFor={id}>{label}</Label>
+      <Input {...register(id, {...req})} err={errors [id] === undefined} type={type} placeholder={placeholder} />
+      <Label err={errors [id] === undefined} htmlFor={id}>{label}</Label>
       <Error>
-        {errors?.id && <p>{errors?.id?.message || 'Error'}</p>}
+        {errors [id] && <p>{errors [id].message || 'Error'}</p>}
       </Error>
     </Shell>    
   )

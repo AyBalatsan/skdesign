@@ -78,7 +78,7 @@ const Home: NextPage = () => {
     handleSubmit,
     reset,
   } = useForm({
-    mode: 'all'
+    mode: 'onBlur'
   })  
   const onSubmit = (data:any) => {
     setTimeout(() => {
@@ -126,18 +126,18 @@ const Home: NextPage = () => {
                           label={input.label}
                           type={input.type}
                           req={input.req}                          
-                          inputValid={{register, errors}}
+                          validationSettings={{register, errors}}
                         />           
                     )
                   })}
                 </ShellGrid>  
-                <SelectDefault id='cityId' name='cityFiled' titleDefault='Выберите город *' req={true} data={dataCities} />
+                <SelectDefault id='cityId' name='cityFiled' titleDefault='Выберите город *' validationSettings={{register, errors}} req={true} data={dataCities} />
                   <InputDefault 
                     id='organization'
                     placeholder='SK Design'
                     label='Название организации/студии'
                     type='text'
-                    inputValid={{register, errors}}
+                    validationSettings={{register, errors}}
                     req={null}
                   />     
                 <ButtonToggle>
@@ -159,7 +159,7 @@ const Home: NextPage = () => {
                       placeholder='ФИО'
                       label='Получатель'
                       type='text'
-                      inputValid={{register, errors}}
+                      validationSettings={{register, errors}}
                       req={null}
                     />     
                   <SelectForDataString id='sourcesId' name='sourcesFiled' titleDefault='От куда узнали про нас?' req={false} data={dataSources} />

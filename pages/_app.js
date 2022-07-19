@@ -49,7 +49,9 @@ body{
   position: relative;
   min-width: 320px;
   overflow-X: hidden;
-  width: 100%  
+  width: 100%;   
+  font-family: 'Open Sans';
+  font-weight: 400;
 }
 .container {
   max-width: 1500px;

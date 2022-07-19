@@ -55,7 +55,7 @@ const SelectDefault = ({ id, name, titleDefault, req, data }: ISelectDefault) =>
   )
 }
 
-export const SelectForDataString = ({ id, name, titleDefault, req, data }: ISelectForDataString) => {
+export const SelectForDataString = ({ id, name, titleDefault, validationSettings, req, data }: ISelectForDataString) => {
   const [value, setValue] = useState({
     val: '',
     title: titleDefault
